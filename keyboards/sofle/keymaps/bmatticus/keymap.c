@@ -1,4 +1,5 @@
 #include QMK_KEYBOARD_H
+#include "ocean_dream.h"
 
 enum sofle_layers {
     /* _M_XYZ = Mac Os, _W_XYZ = Win/Linux */
@@ -134,6 +135,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 #ifdef OLED_ENABLE
 
+#ifndef OCEAN_DREAM_ENABLE
 static void render_logo(void) {
     static const char PROGMEM qmk_logo[] = {
         0x80,0x81,0x82,0x83,0x84,0x85,0x86,0x87,0x88,0x89,0x8a,0x8b,0x8c,0x8d,0x8e,0x8f,0x90,0x91,0x92,0x93,0x94,
@@ -143,6 +145,7 @@ static void render_logo(void) {
 
     oled_write_P(qmk_logo, false);
 }
+#endif
 
 static void print_status_narrow(void) {
     // Print current mode
@@ -201,7 +204,11 @@ bool oled_task_user(void) {
     if (is_keyboard_master()) {
         print_status_narrow();
     } else {
+#ifdef OCEAN_DREAM_ENABLE	
+        render_stars();
+#else
         render_logo();
+#endif
     }
     return false;
 }
@@ -344,6 +351,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 unregister_code(KC_Z);
             }
             return false;
+        case KC_LCTL:
+        case KC_RCTL:
+#ifdef OCEAN_DREAM_ENABLE
+            is_calm = (record->event.pressed) ? true : false;
+#endif
+            break;
     }
     return true;
 }
@@ -368,3 +381,4 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 }
 
 #endif
+
