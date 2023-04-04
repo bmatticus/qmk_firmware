@@ -8,3 +8,6 @@ for more options.
 #define DYNAMIC_KEYMAP_LAYER_COUNT 5
 
 #define SPLIT_WPM_ENABLE
+
+#define VENDOR_ID 0xFC32
+#define PRODUCT_ID 0x0287

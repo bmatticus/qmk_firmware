@@ -197,7 +197,11 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
     if (is_keyboard_master()) {
         return OLED_ROTATION_270;
     }
+#ifdef OCEAN_DREAM_ENABLE
+    return OLED_ROTATION_270;
+#else
     return rotation;
+#endif
 }
 
 bool oled_task_user(void) {
